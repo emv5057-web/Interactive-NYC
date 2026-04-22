@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>NYC Borough Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Mapbox GL JS CSS -->
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Page header with title, description, and call to action -->
+  <header class="page-header">
+    <h1>NYC Borough Explorer</h1>
+    <p class="description">
+      Explore New York City’s five boroughs through an interactive web map.
+      Click on a borough to learn key facts and compare basic characteristics.
+    </p>
+    <p class="cta">
+      Select a borough on the map to view its details.
+    </p>
+  </header>
+
+  <!-- Main content area with map and info panel side by side -->
+  <main class="layout">
+    
+    <!-- Map container -->
+    <section class="map-section">
+      <div id="map"></div>
+    </section>
+
+    <!-- Info panel that updates when the user clicks a borough -->
+    <aside class="info-panel">
+      <h2>Borough Information</h2>
+      <div id="borough-info">
+        <p><strong>Click a borough</strong> to see information here.</p>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- Footer with simple project credit -->
+  <footer class="page-footer">
+    <p>
+      Built with Mapbox GL JS using GeoJSON borough boundaries and custom styling.
+    </p>
+  </footer>
+
+  <!-- Mapbox GL JS library -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+
+  <!-- Custom JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>

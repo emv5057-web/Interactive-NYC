@@ -1,0 +1,96 @@
+/* General page styling */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f7f7f7;
+  color: #222;
+  line-height: 1.5;
+}
+
+/* Header styling */
+.page-header {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 20px 20px 20px;
+}
+
+.page-header h1 {
+  margin: 0 0 10px 0;
+  font-size: 2rem;
+}
+
+.description {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  color: #444;
+}
+
+.cta {
+  margin: 0;
+  font-weight: bold;
+  color: #0f5c4d;
+}
+
+/* Main two-column layout */
+.layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+/* Map section */
+.map-section {
+  flex: 2;
+}
+
+/* Map container size and appearance */
+#map {
+  width: 100%;
+  height: 600px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+/* Info panel styling */
+.info-panel {
+  flex: 1;
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  min-height: 600px;
+  box-sizing: border-box;
+}
+
+.info-panel h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+/* Footer styling */
+.page-footer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px 30px 20px;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+/* Make layout stack vertically on smaller screens */
+@media (max-width: 900px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .info-panel {
+    min-height: auto;
+  }
+
+  #map {
+    height: 500px;
+  }
+}
