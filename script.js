@@ -1,5 +1,5 @@
 
-// Add your Mapbox access token here
+// Mapbox access token here
 mapboxgl.accessToken = 'pk.eyJ1IjoiZXZlc21hbm92YSIsImEiOiJjbW9hbTNpZngwOGJ5MndvbXEwbG00ZTRsIn0.OkvCB1LzXYx77_uEj-WB6A';
 
 // Borough information used in the side panel
@@ -49,12 +49,11 @@ const map = new mapboxgl.Map({
   zoom: 9
 });
 
-// Function to update the side info panel when a borough is clicked
+// Update the side panel when a borough is clicked
 function updateInfoPanel(name) {
   const info = boroughData[name];
   const infoBox = document.getElementById("borough-info");
 
-  // Fallback if the borough name is not found in the object above
   if (!info) {
     infoBox.innerHTML = `
       <h3>${name}</h3>
@@ -77,43 +76,35 @@ function updateInfoPanel(name) {
   `;
 }
 
-// Wait until the map is fully loaded before adding data and layers
+// Wait until the map loads before adding data and layers
 map.on('load', () => {
-  // Add the NYC borough GeoJSON as a source
+  // Add the local simplified borough GeoJSON file
   map.addSource('boroughs', {
     type: 'geojson',
-    data: 'https://services5.arcgis.com/GfwWNkhOj9bNBqoJ/arcgis/rest/services/NYC_Borough_Boundary/FeatureServer/0/query?where=1=1&outFields=*&outSR=4326&f=pgeojson'
+    data: 'boroughs.geojson'
   });
 
-  // Add a fill layer with a different color for each borough
+  // Add borough fill colors using the BoroName property
   map.addLayer({
-  id: 'borough-fills',
-  type: 'fill',
-  source: 'boroughs',
-  paint: {
-    'fill-color': [
-      'match',
-      [
-        'coalesce',
-        ['get', 'boro_name'],
+    id: 'borough-fills',
+    type: 'fill',
+    source: 'boroughs',
+    paint: {
+      'fill-color': [
+        'match',
         ['get', 'BoroName'],
-        ['get', 'BORONAME'],
-        ['get', 'boro'],
-        ['get', 'name']
+        'Manhattan', '#f4a261',
+        'Brooklyn', '#2a9d8f',
+        'Queens', '#457b9d',
+        'Bronx', '#8d99ae',
+        'Staten Island', '#e76f51',
+        '#bdbdbd'
       ],
-      'Manhattan', '#f4a261',
-      'Brooklyn', '#2a9d8f',
-      'Queens', '#457b9d',
-      'Bronx', '#8d99ae',
-      'The Bronx', '#8d99ae',
-      'Staten Island', '#e76f51',
-      '#bdbdbd'
-    ],
-    'fill-opacity': 0.55
-  }
+      'fill-opacity': 0.55
+    }
   });
 
-  // Add a white outline around each borough
+  // Add borough borders
   map.addLayer({
     id: 'borough-borders',
     type: 'line',
@@ -124,7 +115,7 @@ map.on('load', () => {
     }
   });
 
-  // Add a highlight layer that will appear when a borough is clicked
+  // Add selected borough highlight layer
   map.addLayer({
     id: 'borough-highlight',
     type: 'line',
@@ -133,53 +124,38 @@ map.on('load', () => {
       'line-color': '#111111',
       'line-width': 4
     },
-    filter: ['==', ['get', 'boro_name'], '']
+    filter: ['==', ['get', 'BoroName'], '']
   });
 
-  // Change cursor to pointer when hovering over boroughs
+  // Change cursor when hovering over boroughs
   map.on('mouseenter', 'borough-fills', () => {
     map.getCanvas().style.cursor = 'pointer';
   });
 
-  // Change cursor back when leaving the borough layer
   map.on('mouseleave', 'borough-fills', () => {
     map.getCanvas().style.cursor = '';
   });
 
-  // When the user clicks a borough, update the info panel and highlight it
+  // Click a borough to update the info panel, highlight it, and show popup
   map.on('click', 'borough-fills', (e) => {
-  const props = e.features[0].properties;
+    const props = e.features[0].properties;
+    const name = props.BoroName || "Unknown Borough";
 
-  console.log(props); // ← keep this for debugging
+    updateInfoPanel(name);
 
-  let name =
-    props.boro_name ||
-    props.BoroName ||
-    props.boro ||
-    props.name ||
-    props.BORONAME ||
-    "Unknown Borough";
+    map.setFilter('borough-highlight', [
+      '==',
+      ['get', 'BoroName'],
+      name
+    ]);
 
-  // normalize Bronx naming
-  if (name === "The Bronx") {
-    name = "Bronx";
-  }
-
-  updateInfoPanel(name);
-
-  map.setFilter('borough-highlight', [
-    '==',
-    ['get', 'boro_name'],
-    name
-  ]);
-
-  new mapboxgl.Popup()
-    .setLngLat(e.lngLat)
-    .setHTML(`<strong>${name}</strong>`)
-    .addTo(map);
+    new mapboxgl.Popup()
+      .setLngLat(e.lngLat)
+      .setHTML(`<strong>${name}</strong>`)
+      .addTo(map);
   });
 
-  // Zoom the map to NYC after the source loads
+  // Zoom the map to NYC
   map.once('idle', () => {
     const bounds = new mapboxgl.LngLatBounds(
       [-74.2557, 40.4961],
