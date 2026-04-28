@@ -1,19 +1,40 @@
 # NYC Borough Explorer
 
 ## Overview
-This project is an interactive web map built using Mapbox GL JS. It allows users to explore New York City’s five boroughs and view key information about each one.
+This project is an interactive web map built using Mapbox GL JS that allows users to explore New York City’s five boroughs. Users can click on each borough to view key information including population, parks, bike lanes, and a short description.
+
+The project was originally built using a live ArcGIS REST service, but was later updated to use a simplified local GeoJSON file for better performance and efficiency.
 
 ## Features
-- Interactive borough map
-- Data-driven styling (different colors for each borough)
-- Clickable features with popups
-- Dynamic info panel with images and statistics
+- Interactive borough map using Mapbox GL JS
+- Data-driven styling (each borough has a unique color)
+- Clickable boroughs with popups
+- Dynamic side panel with:
+  - Images
+  - Descriptions
+  - Key statistics
+- Highlight effect for selected borough
+- Responsive layout with map + information panel
 
 ## Data
-NYC Borough boundaries from ArcGIS GeoJSON:
-https://services5.arcgis.com/GfwWNkhOj9bNBqoJ/arcgis/rest/services/NYC_Borough_Boundary/FeatureServer/0/query?where=1=1&outFields=*&outSR=4326&f=pgeojson
+- Simplified NYC Borough Boundaries GeoJSON (provided in class)
+- Original data source: NYC ArcGIS Online REST Service (replaced for optimization)
 
-## Tools
+## Tools & Technologies
 - Mapbox GL JS
 - HTML, CSS, JavaScript
+- GeoJSON
 - GitHub Pages
+
+## Why This Project Exists
+This project was created as part of a GIS web mapping assignment to demonstrate:
+- Working with GeoJSON data in Mapbox
+- Implementing interactivity in web maps
+- Applying data-driven styling
+- Designing a user-friendly interface
+
+## Live Site
+https://emv5057-web.github.io/Interactive-NYC/
+
+## Repository
+https://github.com/emv5057-web/Interactive-NYC
